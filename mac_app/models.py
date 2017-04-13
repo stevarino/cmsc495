@@ -28,6 +28,9 @@ class Ticket(models.Model):
             related_name='tickets')
     state = models.ForeignKey("TicketState")
 
+    parent_ticket = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, 
+            null=True)
+
     modification_date = models.DateTimeField()
     modification_user = models.ForeignKey("Employee", blank=True, 
             related_name='tickets_touched')
@@ -54,9 +57,26 @@ class TicketState(models.Model):
     friendly_name = models.CharField(max_length=256)
     details = models.TextField()
 
-    roles = models.ManyToManyField("EmployeeRole")
-    next = models.ManyToManyField("self", blank=True)
-    prev = models.ForeignKey("self", blank=True)
+    substate = models.ManyToManyField("self", blank=True)
+
+    roles = models.ManyToManyField("EmployeeRole", blank=True)
+
+    def __str__(self):
+        return self.name
+
+class TicketStateNext(models.Model):
+    state = models.ForeignKey("TicketState", on_delete=models.CASCADE)
+    title = models.CharField(max_length=128)
+    sort_field = models.IntegerField(default=0)
+    css = models.ForeignKey("TicketStateNextCss", blank=True)
+    next_state = models.ForeignKey("TicketState", related_name="next", blank=True)
+
+    def __str__(self):
+        return "[{}] {} [{}]".format(self.state, self.title, self.next_state)
+
+class TicketStateNextCss(models.Model):
+    name = models.CharField(max_length=32)
+    css = models.CharField(max_length=128)
 
     def __str__(self):
         return self.name
@@ -71,7 +91,7 @@ class Employee(models.Model):
     state = models.CharField(max_length=128, blank=True)
     postal_code = models.CharField(max_length=16, blank=True)
     phone = models.CharField(max_length=16, blank=True)
-    department = models.ForeignKey("EmployeeDept", blank=True)
+    department = models.ForeignKey("EmployeeDept", blank=True, null=True)
     roles = models.ManyToManyField("EmployeeRole", blank=True)
     creation_date = models.DateTimeField('date created', 
         default=datetime.now)
@@ -95,5 +115,13 @@ class EmployeeDept(models.Model):
 class LogEntry(models.Model):
     description = models.TextField(blank=True)
     creation_date = models.DateTimeField('date created', 
-        default=datetime.now)
+            default=datetime.now)
+    user = models.ForeignKey("Employee")
+    state_from = models.ForeignKey("TicketState", blank=True, related_name="+")
+    state_to = models.ForeignKey("TicketState", blank=True, related_name="+")
     ticket = models.ForeignKey("Ticket")
+
+
+    def __str__(self):
+        return "[{}] {} ({} -> {})".format(self.ticket, self.creation_date, 
+                self.state_from, self.state_to)
