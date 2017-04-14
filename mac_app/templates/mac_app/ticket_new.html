@@ -1,0 +1,14 @@
+{% extends 'mac_app/base.html' %}
+
+{% block content %}
+<h2>New User Ticket</h2>
+<form method="post">
+    {% csrf_token %}
+    <!-- forms should probably be css not table -->
+    {{ form.as_p }}
+    <p><label for='notes'>Notes:</p>
+    <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+    <input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

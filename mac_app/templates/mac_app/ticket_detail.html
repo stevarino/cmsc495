@@ -1,0 +1,151 @@
+{% extends 'mac_app/base.html' %}
+
+{% block head %}
+<style type='text/css'>
+.hidden_note {
+    display: none;
+}
+.hidden_note td {
+    text-align: left;
+    padding: 1em 0;
+}
+
+.ticket_status td {
+    padding: 0.2em 0.5em;
+}
+</style>
+
+<script type='text/javascript'>
+$(function() {
+    $('.show_note').click(function(e) {
+        e.preventDefault();
+        var id = "#"+$(this).attr('data-noteid');
+        if ($(id).is(':visible')) {
+            $(this).text("Show Details");
+        } else {
+            $(this).text("Hide Details");
+        }
+        $(id).slideToggle()
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<h2>{{ ticket.number }}</h2>
+
+<h3>Current Status - 
+    {% if ticket.is_complete %}
+        Closed
+    {% else %}
+        Open
+    {%endif %}
+</h3>
+<table class='ticket_status'>
+    <tr><td>Facilities:</td><td>{{fac_stage}}</td></tr>
+    <tr><td>Desktop Support:</td><td>{{dsk_stage}}</td></tr>
+    <tr><td>Network Admin:</td><td>{{net_stage}}</td></tr>
+</table>
+
+<h3>History</h3>
+<table class='ticket_table'>
+    <tr>
+        <th>Department</th>
+        <th>From State</th>
+        <th>To State</th>
+        <th>Date</th>
+        <th>Details</th>
+    </tr>
+{% for note in ticket.ticketnote_set.all %}
+    <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+        <td>{{note.department.name}} </td>
+        <td>{{note.from_state_text}}</td>
+        <td>{{note.to_state_text}}</td>
+        <td>{{note.creation_date|date:"Y-m-d H:i:s"}}</td>
+        <td>{% if note.content %}
+            <a href="#" class='show_note' data-noteid='note_{{note.pk}}'>Show Details</a>{% endif %}
+        </td>
+    </tr>
+    {% if note.content %}
+    <tr  class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} hidden_note" id='note_{{note.pk}}'>
+        <td colspan='5' class='detail'>{{note.content|linebreaks}}</td>
+    </tr>
+    {% endif %}
+{% endfor %}
+</table>
+{% if is_fac and ticket.fac_stage == 'w' %}
+    <h3>Facilities Operations</h3>
+    <form method='post'>{% csrf_token %}
+        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <input type='hidden' name='dept' value='fac' />
+        <button type-'submit' name='state' value='p' class='btn btn-primary btn-block'>
+            Acknowledge Receipt
+        </button>
+    </form> class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}"
+{% endif %}
+{% if is_fac and ticket.fac_stage == 'p' %}
+    <h3>Facilities Operations</h3>
+    <p>{{ ticket.ticket_type.fac_msg|linebreaks }}</p>
+    <form method='post'>{% csrf_token %}
+        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <input type='hidden' name='dept' value='fac' />
+        <button type-'submit' name='state' value='c' class='btn btn-primary btn-block'>
+            Work Is Complete
+        </button>
+        <button type-'submit' name='state' value='w' class='btn btn-primary btn-block'>
+            Cancel Work
+        </button>
+    </form>
+{% endif %}
+
+{% if is_dsk and ticket.dsk_stage == 'w' %}
+    <h3>Desktop Support</h3>
+    <form method='post'>{% csrf_token %}
+        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <input type='hidden' name='dept' value='dsk' />
+        <button type-'submit' name='state' value='p' class='btn btn-primary btn-block'>
+            Acknowledge Receipt
+        </button>
+    </form>
+{% endif %}
+{% if is_dsk and ticket.dsk_stage == 'p' %}
+    <h3>Desktop Support</h3>
+    <p>{{ ticket.ticket_type.dsk_msg|linebreaks }}</p>
+    <form method='post'>{% csrf_token %}
+        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <input type='hidden' name='dept' value='dsk' />
+        <button type-'submit' name='state' value='c' class='btn btn-success btn-block'>
+            Work Is Complete
+        </button>
+        <button type-'submit' name='state' value='w' class='btn btn-danger btn-block'>
+            Cancel Work
+        </button>
+    </form>
+{% endif %}
+
+{% if is_net and ticket.net_stage == 'w' %}
+    <h3>Network Administration</h3>
+    <form method='post'>{% csrf_token %}
+        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <input type='hidden' name='dept' value='net' />
+        <button type-'submit' name='state' value='p' class='btn btn-primary btn-block'>
+            Acknowledge Receipt
+        </button>
+    </form>
+{% endif %}
+{% if is_net and ticket.net_stage == 'p' %}
+    <h3>Network Administration</h3>
+    <p>{{ ticket.ticket_type.net_msg|linebreaks }}</p>
+    <form method='post'>{% csrf_token %}
+        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <input type='hidden' name='dept' value='net' />
+        <button type-'submit' name='state' value='c' class='btn btn-success btn-block'>
+            Work Is Complete
+        </button>
+        <button type-'submit' name='state' value='w' class='btn btn-danger btn-block'>
+            Cancel Work
+        </button>
+    </form>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'mac_app/base.html' %}
+
+{% block content %}
+<div class='row vertical-center'>
+     <div class="center-block" style="width: 200px; background-color: #eee; padding: 10px; border-radius: 10px;">
+    {% if error %}
+    <p class='error'>Error: {{error}}</p>
+    {% endif %}
+    <form method='POST'>{% csrf_token %}
+        <p>Username: <input type='text' name='username' autofocus /></p>
+        <p>Password: <input type='password' name='password' /></p>
+        <input type='submit' />
+    </form>
+    </div>
+</div>
+
+
+{% endblock %}
