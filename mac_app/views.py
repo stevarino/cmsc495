@@ -63,8 +63,7 @@ def ticket_detail(request, ticket_num):
             content = request.POST['notes'])
         note.save()
         
-        setattr(ticket, request.POST['dept']+'_stage', request.POST['state'])
-        ticket.process_stage()
+        ticket.set_dept_stage(request.POST['dept'], request.POST['state'])
 
         return redirect('ticket_detail', ticket_num=ticket.number)
     context['ticket'] = ticket

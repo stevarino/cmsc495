@@ -81,7 +81,7 @@ $(function() {
         <button type-'submit' name='state' value='p' class='btn btn-primary btn-block'>
             Acknowledge Receipt
         </button>
-    </form> class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}"
+    </form>
 {% endif %}
 {% if is_fac and ticket.fac_stage == 'p' %}
     <h3>Facilities Operations</h3>
@@ -92,7 +92,7 @@ $(function() {
         <button type-'submit' name='state' value='c' class='btn btn-primary btn-block'>
             Work Is Complete
         </button>
-        <button type-'submit' name='state' value='w' class='btn btn-primary btn-block'>
+        <button type-'submit' name='state' value='w' class='btn btn-danger btn-block'>
             Cancel Work
         </button>
     </form>

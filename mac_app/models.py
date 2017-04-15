@@ -62,22 +62,10 @@ class Ticket(models.Model):
     def fac_stage_text(self):
         return dict(ticket_state)[self.fac_stage]
 
-    # handled at beginning of each stage
-    def enter_stage(self):
-        for dept in ['dsk', 'net', 'fac']:
-            department = Department.objects.get(name=dept.upper())
-
-            # mark non-required departments  as complete
-            if getattr(self.ticket_type, dept+'_seq') == -1:
-                setattr(self, dept+'_stage', 'c')
-
-            if getattr(self.ticket_type, dept+'_seq') == self.stage:
-                if getattr(self, dept+'_stage') == 'n':
-                # mark new steps as pending
-                    setattr(self, dept+'_stage', 'w')
-                    users = Profile.objects.filter(department=department)
-                    # TODO: email users
-        self.save()
+    # department stage updated
+    def set_dept_stage(self, dept, state):
+        setattr(self, dept+'_stage', state)
+        self.process_stage()
                 
     # determines if the current stage is done and if so increment
     def process_stage(self):
@@ -96,6 +84,23 @@ class Ticket(models.Model):
             self.stage += 1
             self.enter_stage()
 
+        self.save()
+
+    # handled at beginning of each stage
+    def enter_stage(self):
+        for dept in ['dsk', 'net', 'fac']:
+            department = Department.objects.get(name=dept.upper())
+
+            # mark non-required departments  as complete
+            if getattr(self.ticket_type, dept+'_seq') == -1:
+                setattr(self, dept+'_stage', 'c')
+
+            if getattr(self.ticket_type, dept+'_seq') == self.stage:
+                if getattr(self, dept+'_stage') == 'n':
+                # mark new steps as pending
+                    setattr(self, dept+'_stage', 'w')
+                    users = Profile.objects.filter(department=department)
+                    # TODO: email users
         self.save()
 
 
