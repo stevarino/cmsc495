@@ -1,1 +1,5 @@
 Django
+django-extensions
+pygraphviz
+pyparsing
+pydot

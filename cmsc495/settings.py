@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['cmsc495.s-j-oconnor.com', '127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'mac_app',
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,6 +121,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
 
 try:
     from local_settings import *
