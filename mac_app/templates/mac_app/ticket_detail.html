@@ -51,6 +51,7 @@ $(function() {
 <table class='ticket_table'>
     <tr>
         <th>Department</th>
+        <th>User</th>
         <th>From State</th>
         <th>To State</th>
         <th>Date</th>
@@ -59,6 +60,7 @@ $(function() {
 {% for note in ticket.ticketnote_set.all %}
     <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
         <td>{{note.department.name}} </td>
+        <td>{{note.author.username}} </td>
         <td>{{note.from_state_text}}</td>
         <td>{{note.to_state_text}}</td>
         <td>{{note.creation_date|date:"Y-m-d H:i:s"}}</td>
@@ -68,7 +70,7 @@ $(function() {
     </tr>
     {% if note.content %}
     <tr  class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} hidden_note" id='note_{{note.pk}}'>
-        <td colspan='5' class='detail'>{{note.content|linebreaks}}</td>
+        <td colspan='6' class='detail'>{{note.content|linebreaks}}</td>
     </tr>
     {% endif %}
 {% endfor %}
