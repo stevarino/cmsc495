@@ -1,0 +1,706 @@
+[
+    {
+        "model": "mac_app.tickettype",
+        "pk": 1,
+        "fields": {
+            "name": "Add User",
+            "code": "nw",
+            "dsk_seq": 1,
+            "dsk_msg": "Set up desktop and phone.",
+            "net_seq": 1,
+            "net_msg": "Create Domain and Email Account.",
+            "fac_seq": 0,
+            "fac_msg": "Assign and document desk location."
+        }
+    },
+    {
+        "model": "mac_app.tickettype",
+        "pk": 2,
+        "fields": {
+            "name": "Move User",
+            "code": "mv",
+            "dsk_seq": 1,
+            "dsk_msg": "Set up desktop and phone.",
+            "net_seq": -1,
+            "net_msg": "",
+            "fac_seq": 0,
+            "fac_msg": "Assign and document new desk location."
+        }
+    },
+    {
+        "model": "mac_app.tickettype",
+        "pk": 3,
+        "fields": {
+            "name": "Remove User",
+            "code": "rm",
+            "dsk_seq": 0,
+            "dsk_msg": "Remove Computer and Phone",
+            "net_seq": 0,
+            "net_msg": "Disable Network Accounts",
+            "fac_seq": 1,
+            "fac_msg": "Remove desk assignment for user and document."
+        }
+    },
+    {
+        "model": "mac_app.department",
+        "pk": 1,
+        "fields": {
+            "name": "HR",
+            "description": "Human Resources"
+        }
+    },
+    {
+        "model": "mac_app.department",
+        "pk": 2,
+        "fields": {
+            "name": "FAC",
+            "description": "Facilities"
+        }
+    },
+    {
+        "model": "mac_app.department",
+        "pk": 3,
+        "fields": {
+            "name": "NET",
+            "description": "Network Administrators"
+        }
+    },
+    {
+        "model": "mac_app.department",
+        "pk": 4,
+        "fields": {
+            "name": "DSK",
+            "description": "Desktop Support"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 1,
+        "fields": {
+            "app_label": "mac_app",
+            "model": "tickettype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 2,
+        "fields": {
+            "app_label": "mac_app",
+            "model": "ticketnote"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 3,
+        "fields": {
+            "app_label": "mac_app",
+            "model": "ticket"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 4,
+        "fields": {
+            "app_label": "mac_app",
+            "model": "department"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 5,
+        "fields": {
+            "app_label": "mac_app",
+            "model": "profile"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 6,
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 7,
+        "fields": {
+            "app_label": "auth",
+            "model": "group"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 8,
+        "fields": {
+            "app_label": "auth",
+            "model": "permission"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 9,
+        "fields": {
+            "app_label": "auth",
+            "model": "user"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 10,
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 11,
+        "fields": {
+            "app_label": "sessions",
+            "model": "session"
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$icjA1ZUEVlEj$jAA6cM1wTQKlFR256o/s0XbhlRAMMp9rQMlT18U6/DE=",
+            "last_login": "2017-04-15T21:27:56.379Z",
+            "is_superuser": true,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2017-04-15T21:27:41.911Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$sVVuWEppRLyw$3HpVJPJBuGxe2sCcZAz3SBz72yuo2HOhbIEFacSDEhU=",
+            "last_login": null,
+            "is_superuser": true,
+            "username": "cpesca",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2017-04-15T21:28:28Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$02lbe2cE7Fhi$x5kyXIr8gYKIPbdjHsIWMoiYdYwC1skPbLESmlMCPG0=",
+            "last_login": "2017-04-15T21:41:06Z",
+            "is_superuser": true,
+            "username": "cmsc495prof",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2017-04-15T21:29:41Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$eG8Oe6WPL9dv$B6o0KlQoRHsdaWXqDhqJsZlcvd4A8wIHB5G9rmFQYqA=",
+            "last_login": "2017-04-15T21:47:53.932Z",
+            "is_superuser": false,
+            "username": "hr_acct",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2017-04-15T21:30:55.552Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 5,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$6tNu7uA6lu5T$Zk7hhvFkHMunhcb2PmKGnk0dk02O9De+wzfBGphPJH0=",
+            "last_login": "2017-04-15T21:43:31.245Z",
+            "is_superuser": false,
+            "username": "fac_acct",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2017-04-15T21:32:37.552Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 6,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$NSmDYkPthlMe$kV0hp98Zwsbw/xTbGSxyIjRNHlBfJS166fBEBQYgmU8=",
+            "last_login": "2017-04-15T21:43:55.952Z",
+            "is_superuser": false,
+            "username": "net_acct",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2017-04-15T21:32:49.728Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 7,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$2jYztCQF1QHn$zQoeWBGfjj7mVrp+q2y4ZU1MLP113CjqTsviRsFmqZw=",
+            "last_login": "2017-04-15T21:47:12.463Z",
+            "is_superuser": false,
+            "username": "dsk_acct",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2017-04-15T21:32:58.068Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 8,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$VX7E3EuaiExD$Nwg3WbOcEWnP85tFNDomUrZx1IH5KPC88sZJ3aR9VaI=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "bsmith",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2017-04-15T21:42:45.754Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 1,
+        "fields": {
+            "action_time": "2017-04-15T21:28:29.047Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "2",
+            "object_repr": "cpesca",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 2,
+        "fields": {
+            "action_time": "2017-04-15T21:29:41.349Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "3",
+            "object_repr": "cmsc495prof",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 3,
+        "fields": {
+            "action_time": "2017-04-15T21:30:55.745Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "4",
+            "object_repr": "hr_acct",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 4,
+        "fields": {
+            "action_time": "2017-04-15T21:32:37.747Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "5",
+            "object_repr": "fac_acct",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 5,
+        "fields": {
+            "action_time": "2017-04-15T21:32:49.921Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "6",
+            "object_repr": "net_acct",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 6,
+        "fields": {
+            "action_time": "2017-04-15T21:32:58.263Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "7",
+            "object_repr": "dsk_acct",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 7,
+        "fields": {
+            "action_time": "2017-04-15T21:33:44.972Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "4",
+            "object_repr": "hr_acct",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 8,
+        "fields": {
+            "action_time": "2017-04-15T21:34:41.355Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "1",
+            "object_repr": "Hum [HR]",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 9,
+        "fields": {
+            "action_time": "2017-04-15T21:34:51.759Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "2",
+            "object_repr": "Facilities [FAC]",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 10,
+        "fields": {
+            "action_time": "2017-04-15T21:34:59.521Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "3",
+            "object_repr": "Network Administrators [NET]",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 11,
+        "fields": {
+            "action_time": "2017-04-15T21:35:07.576Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "4",
+            "object_repr": "Desktop Support [DSK]",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 12,
+        "fields": {
+            "action_time": "2017-04-15T21:35:30.829Z",
+            "user": 1,
+            "content_type": 5,
+            "object_id": "3",
+            "object_repr": "cmsc495prof",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"department\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 13,
+        "fields": {
+            "action_time": "2017-04-15T21:35:39.839Z",
+            "user": 1,
+            "content_type": 5,
+            "object_id": "4",
+            "object_repr": "hr_acct",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"department\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 14,
+        "fields": {
+            "action_time": "2017-04-15T21:35:46.325Z",
+            "user": 1,
+            "content_type": 5,
+            "object_id": "5",
+            "object_repr": "fac_acct",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"department\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 15,
+        "fields": {
+            "action_time": "2017-04-15T21:35:51.276Z",
+            "user": 1,
+            "content_type": 5,
+            "object_id": "6",
+            "object_repr": "net_acct",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"department\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 16,
+        "fields": {
+            "action_time": "2017-04-15T21:35:56.226Z",
+            "user": 1,
+            "content_type": 5,
+            "object_id": "7",
+            "object_repr": "dsk_acct",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"department\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 17,
+        "fields": {
+            "action_time": "2017-04-15T21:36:22.121Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "1",
+            "object_repr": "Human Resources [HR]",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"description\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 18,
+        "fields": {
+            "action_time": "2017-04-15T21:37:38.517Z",
+            "user": 1,
+            "content_type": 1,
+            "object_id": "1",
+            "object_repr": "Add User",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 19,
+        "fields": {
+            "action_time": "2017-04-15T21:38:13.128Z",
+            "user": 1,
+            "content_type": 1,
+            "object_id": "2",
+            "object_repr": "Move User",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 20,
+        "fields": {
+            "action_time": "2017-04-15T21:38:42.199Z",
+            "user": 1,
+            "content_type": 1,
+            "object_id": "3",
+            "object_repr": "Remove User",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 21,
+        "fields": {
+            "action_time": "2017-04-15T21:41:43.506Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "3",
+            "object_repr": "cmsc495prof",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"is_staff\", \"is_superuser\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 22,
+        "fields": {
+            "action_time": "2017-04-15T21:41:57.624Z",
+            "user": 1,
+            "content_type": 9,
+            "object_id": "2",
+            "object_repr": "cpesca",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"is_staff\", \"is_superuser\"]}}]"
+        }
+    },
+    {
+        "model": "mac_app.profile",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "domain": "corp",
+            "address": "",
+            "city": "",
+            "state": "",
+            "postal_code": "",
+            "phone": "",
+            "department": null
+        }
+    },
+    {
+        "model": "mac_app.profile",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "domain": "corp",
+            "address": "",
+            "city": "",
+            "state": "",
+            "postal_code": "",
+            "phone": "",
+            "department": null
+        }
+    },
+    {
+        "model": "mac_app.profile",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "domain": "corp",
+            "address": "",
+            "city": "",
+            "state": "",
+            "postal_code": "",
+            "phone": "",
+            "department": 1
+        }
+    },
+    {
+        "model": "mac_app.profile",
+        "pk": 4,
+        "fields": {
+            "user": 4,
+            "domain": "corp",
+            "address": "",
+            "city": "",
+            "state": "",
+            "postal_code": "",
+            "phone": "",
+            "department": 1
+        }
+    },
+    {
+        "model": "mac_app.profile",
+        "pk": 5,
+        "fields": {
+            "user": 5,
+            "domain": "corp",
+            "address": "",
+            "city": "",
+            "state": "",
+            "postal_code": "",
+            "phone": "",
+            "department": 2
+        }
+    },
+    {
+        "model": "mac_app.profile",
+        "pk": 6,
+        "fields": {
+            "user": 6,
+            "domain": "corp",
+            "address": "",
+            "city": "",
+            "state": "",
+            "postal_code": "",
+            "phone": "",
+            "department": 3
+        }
+    },
+    {
+        "model": "mac_app.profile",
+        "pk": 7,
+        "fields": {
+            "user": 7,
+            "domain": "corp",
+            "address": "",
+            "city": "",
+            "state": "",
+            "postal_code": "",
+            "phone": "",
+            "department": 4
+        }
+    },
+    {
+        "model": "mac_app.profile",
+        "pk": 8,
+        "fields": {
+            "user": 8,
+            "domain": "corp",
+            "address": "",
+            "city": "",
+            "state": "",
+            "postal_code": "",
+            "phone": "",
+            "department": 4
+        }
+    }
+]
