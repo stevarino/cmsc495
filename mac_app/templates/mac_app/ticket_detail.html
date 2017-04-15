@@ -60,7 +60,7 @@ $(function() {
 {% for note in ticket.ticketnote_set.all %}
     <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
         <td>{{note.department.name}} </td>
-        <td>{{note.author.username}}</td>
+        <td>{{note.author.username}} </td>
         <td>{{note.from_state_text}}</td>
         <td>{{note.to_state_text}}</td>
         <td>{{note.creation_date|date:"Y-m-d H:i:s"}}</td>
@@ -91,7 +91,7 @@ $(function() {
     <form method='post'>{% csrf_token %}
         <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
         <input type='hidden' name='dept' value='fac' />
-        <button type-'submit' name='state' value='c' class='btn btn-primary btn-block'>
+        <button type-'submit' name='state' value='c' class='btn btn-success btn-block'>
             Work Is Complete
         </button>
         <button type-'submit' name='state' value='w' class='btn btn-danger btn-block'>
