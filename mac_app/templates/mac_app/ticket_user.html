@@ -1,0 +1,51 @@
+{% extends 'mac_app/base.html' %}
+
+{% block head %}
+<style type='text/css'>
+.user-label {
+    font-weight: bold;
+    text-align: right;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>Confirm Ticket</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class='row'>
+        <p class='user-label col-sm-2'>Ticket Type:</p>
+        <p class='col-sm-10'>
+            {{type.name}}
+        </p>
+    </div>
+    <div class='row'>
+        <p class='user-label col-sm-2'>Username:</p>
+        <p class='col-sm-10'>{{user.username}}</p>
+    </div>
+    <div class='row'>
+        <p class='user-label col-sm-2'>First Name:</p>
+        <p class='col-sm-10'>{{user.first_name}}</p>
+    </div>
+    <div class='row'>
+        <p class='user-label col-sm-2'>Last Name:</p>
+        <p class='col-sm-10'>{{user.last_name}}</p>
+    </div>
+    <div class='row'>
+        <p class='user-label col-sm-2'>Department:</p>
+        <p class='col-sm-10'>{{user.profile.department.description}}</p>
+    </div>
+    
+    <div class='row'>
+        <p class='user-label col-sm-2'><label for='notes'>Special Instructions:</p>
+
+        <p class='col-sm-10'>
+            <textarea id='notes' name='notes' rows='10' cols='40'></textarea>
+        </p>
+    </div>
+    <p style='text-align: right;'>
+        <input type="submit" value="Create Ticket" class='btn btn-primary' />
+    </p>
+</form>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'mac_app/base.html' %}
+
+{% block head %}
+<style type='text/css'>
+.search_form input {
+    width: 100%;
+    
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>Find User</h2>
+<form method="GET" class='search_form'>
+    {{ form.non_field_errors }}
+    <div class='row'>
+        <div class="col-sm-4">
+            {{ form.username.errors }}
+            <label for="{{ form.username.id_for_label }}">Username:</label><br />
+            {{ form.username }}
+        </div>
+        <div class="col-sm-4">
+            {{ form.first_name.errors }}
+            <label for="{{ form.first_name.id_for_label }}">First Name:</label><br />
+            {{ form.first_name }}
+        </div>
+        <div class="col-sm-4">
+            {{ form.last_name.errors }}
+            <label for="{{ form.last_name.id_for_label }}">Last Name:</label><br />
+            {{ form.last_name }}
+        </div>
+    </div>
+
+    <p style='margin: 1em 0; text-align: right;'>
+    <button type-'submit' class='btn btn-primary btn-block'>
+        Search
+    </button>
+    </p>
+</form>
+{% if users %}
+    <table style='width: 100%;'>
+        <tr>
+            <th></th>
+            <th>Username</th>
+            <th>Department</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+        {% for user in users.all %}
+            <td style='padding: 0.5em 0;'>
+                <a href="{% url 'ticket_user' action=action username=user.username %}" 
+                    class='btn btn-primary'>Select</a>
+            </td>
+            <td>{{user.username}}</td>
+            <td>{{user.profile.department.description}}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+        </tr>
+        {% endfor %}
+{% endif %}
+
+{% endblock %}

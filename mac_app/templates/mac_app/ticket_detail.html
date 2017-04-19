@@ -13,6 +13,17 @@
 .ticket_status td {
     padding: 0.2em 0.5em;
 }
+
+.row-label {
+    font-weight: bold;
+    text-align: right;
+}
+.no-header tr:first-child th,
+.no-header tr:first-child td,
+.table tr.hidden_note td
+{
+    border-top: 0;
+}
 </style>
 
 <script type='text/javascript'>
@@ -25,7 +36,7 @@ $(function() {
         } else {
             $(this).text("Hide Details");
         }
-        $(id).slideToggle()
+        $(id).toggle()
     });
 });
 </script>
@@ -41,39 +52,107 @@ $(function() {
         Open
     {%endif %}
 </h3>
-<table class='ticket_status'>
-    <tr><td>Facilities:</td><td>{{fac_stage}}</td></tr>
-    <tr><td>Desktop Support:</td><td>{{dsk_stage}}</td></tr>
-    <tr><td>Network Admin:</td><td>{{net_stage}}</td></tr>
+<table class='table'>
+    <thead class='thead-default'>
+        <tr><th>Department</th><th>Progress</th></tr>
+    </thead>
+    <tbody>
+        {% for dept in departments %}
+        <tr>
+            <th scope="row" class='col-sm-3'>{{dept.name}}</td>
+            <td> 
+                {% if dept.status == 'n' %}
+                <span class="label label-default" style='margin-right: 0.5em'>
+                    <span class="glyphicon glyphicon-time"></span>
+                </span>
+                {% elif dept.status == 'w' %}
+                <span class="label label-warning" style='margin-right: 0.5em'>
+                    <span class="glyphicon glyphicon-envelope"></span>
+                </span>
+                {% elif dept.status == 'p' %}
+                <span class="label label-primary" style='margin-right: 0.5em'>
+                    <span class="glyphicon glyphicon-option-horizontal"></span>
+                </span>
+                {% elif dept.status == 'c' %}
+                <span class="label label-success" style='margin-right: 0.5em'>
+                    <span class="glyphicon glyphicon-ok"></span>
+                </span>
+                {% endif %}
+                {{dept.status_text}} 
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
-<h3>History</h3>
-<table class='ticket_table'>
+<h3>Ticket Detail</h3>
+<table class='table no-header'>
+    <tbody>
+        <tr>
+            <th scope='row' class='col-sm-3'>Ticket  Type:</th>
+            <td>
+                {% if ticket.ticket_type.code == 'mv' %}
+                Move User
+                {% elif ticket.ticket_type.code == 'rm' %}
+                Remove User
+                {% elif ticket.ticket_type.code == 'nw' %}
+                New User
+                {% else %}
+                Unknown
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th scope='row' class='col-sm-3'>Username:</th>
+            <td>{{ticket.target.username}}</td>
+        </tr>
+        <tr>
+            <th scope='row' class='col-sm-3'>First Name:</th>
+            <td>{{ticket.target.first_name}}</td>
+        </tr>
+        <tr>
+            <th scope='row' class='col-sm-3'>Last Name:</th>
+            <td>{{ticket.target.last_name}}</td>
+        </tr>
+        <tr>
+            <th scope='row' class='col-sm-3'>Department:</th>
+            <td>{{ticket.target.profile.department.description}}</th>
+        </tr>
+        <tr>
+            <th scope='row' class='col-sm-3'>Requested By:</th>
+            <td>{{ticket.author}}</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Ticket History</h3>
+<table class='table'>
+    <thead>
     <tr>
-        <th>Department</th>
+        <th>Date</th>
         <th>User</th>
         <th>From State</th>
         <th>To State</th>
-        <th>Date</th>
         <th>Details</th>
     </tr>
+    </thead>
+    <tbody>    
 {% for note in ticket.ticketnote_set.all %}
-    <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
-        <td>{{note.department.name}} </td>
-        <td>{{note.author.username}} </td>
+    <tr>
+        <td>{{note.creation_date|date:"Y-m-d H:i:s"}}</td>
+        <td>{{note.author.username}} ({{note.department.name}})</td>
         <td>{{note.from_state_text}}</td>
         <td>{{note.to_state_text}}</td>
-        <td>{{note.creation_date|date:"Y-m-d H:i:s"}}</td>
         <td>{% if note.content %}
             <a href="#" class='show_note' data-noteid='note_{{note.pk}}'>Show Details</a>{% endif %}
         </td>
     </tr>
     {% if note.content %}
-    <tr  class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} hidden_note" id='note_{{note.pk}}'>
+    <tr  class="hidden_note" id='note_{{note.pk}}'>
         <td colspan='6' class='detail'>{{note.content|linebreaks}}</td>
     </tr>
     {% endif %}
 {% endfor %}
+    </tbody>
 </table>
 {% if is_fac and ticket.fac_stage == 'w' %}
     <h3>Facilities Operations</h3>

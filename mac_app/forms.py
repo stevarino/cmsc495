@@ -15,6 +15,7 @@ class NewUserTicket(forms.Form):
     phone = forms.CharField(max_length=16, required=False)
     department = forms.ModelChoiceField(Department.objects.all())
 
+    # form validator to ensure unique username
     def clean_username(self):
         username = self.cleaned_data['username']
         try:
@@ -22,3 +23,22 @@ class NewUserTicket(forms.Form):
         except User.DoesNotExist:
             return username
         raise forms.ValidationError(u'Username "{}" is already in use.'.format(username))
+
+
+class UserSearchForm(forms.Form):
+    username = forms.CharField(label='Username', max_length=32, required=False)
+    first_name = forms.CharField(label='First Name', max_length=32, required=False)
+    last_name = forms.CharField(label='Last Name', max_length=32, required=False)
+
+    def get_users(self):
+        users = User.objects
+        is_filtered = False
+        for f in ['first_name', 'last_name', 'username']:
+            if self.cleaned_data[f]:
+                is_filtered = True
+                users = users.filter(**{
+                    f+'__icontains': self.cleaned_data[f]
+                })
+        if is_filtered:
+            return users
+        return []

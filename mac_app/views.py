@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 
 
 from .models import Ticket, TicketType, TicketNote, Department, ticket_state
-from .forms import NewUserTicket
+from .forms import NewUserTicket, UserSearchForm
 
 def index(request):
     context = {}
@@ -66,6 +66,7 @@ def ticket_detail(request, ticket_num):
         ticket.set_dept_stage(request.POST['dept'], request.POST['state'])
 
         return redirect('ticket_detail', ticket_num=ticket.number)
+        
     context['ticket'] = ticket
     states = dict(ticket_state)
 
@@ -74,9 +75,23 @@ def ticket_detail(request, ticket_num):
     context['is_net'] = request.user.is_superuser or request.user.profile.department.name == 'NET'
     context['is_dsk'] = request.user.is_superuser or request.user.profile.department.name == 'DSK'
 
-    context['dsk_stage'] = states[ticket.dsk_stage]
-    context['net_stage'] = states[ticket.net_stage]
-    context['fac_stage'] = states[ticket.fac_stage]
+    context['departments'] = [
+        {
+            'name': "Facilities",
+            'status': ticket.fac_stage,
+            'status_text': states[ticket.fac_stage],
+        }, 
+        {
+            'name': "Desktop Support",
+            'status': ticket.dsk_stage,
+            'status_text': states[ticket.dsk_stage],
+        }, 
+        {
+            'name': "Network Admin",
+            'status': ticket.net_stage,
+            'status_text': states[ticket.net_stage],
+        }, 
+    ]
 
     return render(request, 'mac_app/ticket_detail.html', context)
 
@@ -111,14 +126,50 @@ def ticket_new(request):
 
     return render(request, 'mac_app/ticket_new.html', {'form': form})
 
-# move ticket
 @login_required(login_url='/')
-def ticket_move(request):
-    return render(request, 'mac_app/blank.html')
+def ticket_edit(request, action):
+    if action not in ['move_user', 'remove_user']:
+        raise Http404("Action not found")
+    users = []
+    form = UserSearchForm()
+    if request.method == 'GET':
+        form = UserSearchForm(request.GET)
+        if form.is_valid():
+            users = form.get_users()
+    return render(request, 'mac_app/user_search.html', 
+            {'form': form, 'users': users, 'action': action})
 
-# remove ticket
+
 @login_required(login_url='/')
-def ticket_remove(request):
-    return render(request, 'mac_app/blank.html')
+def ticket_user(request, action, username):
+    types = {'move_user': 'mv', 'remove_user': 'rm'}
+    user = get_object_or_404(User, username=username)
+    if action not in types.keys():
+        raise Http404("Action not found")
+    
+    if request.method == 'POST' and 'notes' in request.POST:
+        return create_ticket(request.user, types[action], user, 
+                notes=request.POST['notes'])
+    
+    return render(request, 'mac_app/ticket_user.html', {
+        'user': user,
+        'type': TicketType.objects.get(code=types[action])
+    })
 
 
+
+# function to create a ticket for all three paths.
+def create_ticket(req_user, type_code, user, notes='', dept='HR'):
+    new_type = TicketType.objects.get(code=type_code)
+    ticket = Ticket(author=req_user, target=user, ticket_type=new_type)
+    ticket.save()
+
+    note = TicketNote(ticket=ticket, author=req_user, 
+        department=Department.objects.get(name=dept), 
+        from_state='n', to_state='c', 
+        content = notes)
+    note.save()
+
+    ticket.enter_stage()
+
+    return redirect('ticket_detail', ticket_num=ticket.number)

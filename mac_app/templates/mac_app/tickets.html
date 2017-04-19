@@ -5,21 +5,24 @@
 
 {% if is_hr %}
     <h3>HR Operations</h3>
-    <a href="{% url 'ticket_move' %}" class='btn btn-primary btn-block'>Create a Move User Ticket</a>
+    <a href="{% url 'ticket_edit' action='move_user' %}" class='btn btn-primary btn-block'>Create a Move User Ticket</a>
     <a href="{% url 'ticket_new' %}" class='btn btn-success btn-block'>Create a New User Ticket</a>
-    <a href="{% url 'ticket_remove' %}" class='btn btn-danger btn-block'>Create a Remove User Ticket</a>
+    <a href="{% url 'ticket_edit' action='remove_user' %}" class='btn btn-danger btn-block'>Create a Remove User Ticket</a>
 {% endif %}
 
 {% if is_fac %}
     <h3>Facilities Operations</h3>
     {% if fac_tickets %}
-    <table class='ticket_table'>
+    <table class='table'>
+        <thead>
         <tr>
             <th>Ticket</th>
             <th>User</th>
             <th>Action</th>
             <th>Status</th>
         </tr>
+        </thead>
+        <tbody>
     {% for ticket in fac_tickets %}
         <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
             <td><a href='{% url 'ticket_detail' ticket.number %}'>{{ticket.number}}</a></td>
@@ -28,6 +31,7 @@
             <td>{{ticket.fac_stage_text}}</td>
         </tr>
     {% endfor %}
+        </tbody>
     </table>
     {% else %}
     <p class='ticket_message'>No tickets available at this time.</p>
