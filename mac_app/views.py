@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 
-from .models import Ticket, TicketType, TicketNote, Department, ticket_state
+from .models import Ticket, TicketType, TicketNote, Department
 from .forms import NewUserTicket, UserSearchForm
 
 def index(request):
@@ -79,7 +79,6 @@ def ticket_detail(request, ticket_num):
         return redirect('ticket_detail', ticket_num=ticket.number)
         
     context['ticket'] = ticket
-    states = dict(ticket_state)
 
     context['is_hr'] = request.user.is_superuser or request.user.profile.department.name == 'HR'
     context['is_fac'] = request.user.is_superuser or request.user.profile.department.name == 'FAC'
@@ -90,17 +89,17 @@ def ticket_detail(request, ticket_num):
         {
             'name': "Facilities",
             'status': ticket.fac_stage,
-            'status_text': states[ticket.fac_stage],
+            'status_text': ticket.fac_stage_text(),
         }, 
         {
             'name': "Desktop Support",
             'status': ticket.dsk_stage,
-            'status_text': states[ticket.dsk_stage],
+            'status_text': ticket.dsk_stage_text(),
         }, 
         {
             'name': "Network Admin",
             'status': ticket.net_stage,
-            'status_text': states[ticket.net_stage],
+            'status_text': ticket.net_stage_text(),
         }, 
     ]
 
