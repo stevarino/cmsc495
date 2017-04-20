@@ -37,14 +37,25 @@ def logout_view(request):
 def tickets(request):
     context = {}
 
-    context['is_hr'] = request.user.is_superuser or request.user.profile.department.name == 'HR'
-    context['is_fac'] = request.user.is_superuser or request.user.profile.department.name == 'FAC'
-    context['is_net'] = request.user.is_superuser or request.user.profile.department.name == 'NET'
-    context['is_dsk'] = request.user.is_superuser or request.user.profile.department.name == 'DSK'
 
-    context['dsk_tickets'] = Ticket.objects.filter(dsk_stage__in=['w', 'p'])
-    context['fac_tickets'] = Ticket.objects.filter(fac_stage__in=['w', 'p'])
-    context['net_tickets'] = Ticket.objects.filter(net_stage__in=['w', 'p'])
+    user_dept = request.user.profile.department.name.lower()
+
+    context['is_hr'] = request.user.is_superuser or user_dept == 'hr'
+
+    context['departments'] = []
+    for d in ['dsk', 'fac', 'net']:
+        dept = {
+            'department': Department.objects.get(name=d.upper()),
+            'user_in_dept': request.user.is_superuser or user_dept == d,
+            'tickets': [],
+        } 
+        for t in Ticket.objects.filter(**{d+'_stage__in': ['w', 'p']}):
+            dept['tickets'].append({
+                'ticket': t,
+                'state': getattr(t, d+'_stage'),
+                'state_text': getattr(t, d+'_stage_text'),
+            })
+        context['departments'].append(dept)
     context['tickets'] = Ticket.objects.order_by('-modification_date')
 
     return render(request, 'mac_app/tickets.html', context)

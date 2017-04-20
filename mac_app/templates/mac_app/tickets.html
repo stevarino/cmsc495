@@ -10,99 +10,95 @@
     <a href="{% url 'ticket_edit' action='remove_user' %}" class='btn btn-danger btn-block'>Create a Remove User Ticket</a>
 {% endif %}
 
-{% if is_fac %}
-    <h3>Facilities Operations</h3>
-    {% if fac_tickets %}
-    <table class='table'>
+{% for d in departments %}
+{% if d.user_in_dept %}
+    <h3>{{d.department.description}} Operations</h3>
+    {% if d.tickets %}
+
+    <table class='table' width='100%'>
         <thead>
-        <tr>
             <th>Ticket</th>
             <th>User</th>
             <th>Action</th>
             <th>Status</th>
-        </tr>
         </thead>
         <tbody>
-    {% for ticket in fac_tickets %}
-        <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
-            <td><a href='{% url 'ticket_detail' ticket.number %}'>{{ticket.number}}</a></td>
-            <td>{{ticket.target.username}}</td>
-            <td>{{ticket.ticket_type.name}}</td>
-            <td>{{ticket.fac_stage_text}}</td>
-        </tr>
-    {% endfor %}
+            {% for t in d.tickets %}
+            <tr>
+                <td>
+                    {% if t.state == 'n' %}
+                    <span class="label label-default" style='margin-right: 0.5em'
+                            title='{{t.state_text}}'>
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                    {% elif t.state == 'w' %}
+                    <span class="label label-warning" style='margin-right: 0.5em'
+                            title='{{t.state_text}}'>
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </span>
+                    {% elif t.state == 'p' %}
+                    <span class="label label-primary" style='margin-right: 0.5em'
+                            title='{{t.state_text}}'>
+                        <span class="glyphicon glyphicon-option-horizontal"></span>
+                    </span>
+                    {% elif t.state == 'c' %}
+                    <span class="label label-success" style='margin-right: 0.5em'
+                            title='{{t.state_text}}'>
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </span>
+                    {% else %}
+                    ? 
+                    {% endif %}
+                    <a href="{% url 'ticket_detail' t.ticket.number %}">{{t.ticket.number}}</a>
+                    </span>
+                </td>
+                <td>{{t.ticket.target.username}}</td>
+                <td>{{t.ticket.ticket_type.name}}</td>
+                <td>{{t.state_text}}</td>
+            </tr>
+
+            {% endfor %}
         </tbody>
     </table>
-    {% else %}
-    <p class='ticket_message'>No tickets available at this time.</p>
-    {% endif %}
-{% endif %}
 
-{% if is_dsk %}
-    <h3>Desktop Support Operations</h3>
-    {% if dsk_tickets %}
-    <table class='ticket_table'>
-        <tr>
-            <th>Ticket</th>
-            <th>User</th>
-            <th>Action</th>
-            <th>Status</th>
-        </tr>
-    {% for ticket in dsk_tickets %}
-        <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
-            <td><a href='{% url 'ticket_detail' ticket.number %}'>{{ticket.number}}</a></td>
-            <td>{{ticket.target.username}}</td>
-            <td>{{ticket.ticket_type.name}}</td>
-            <td>{{ticket.dsk_stage_text}}</td>
-        </tr>
-    {% endfor %}
-    </table>
     {% else %}
-    <p class='ticket_message'>No tickets available at this time.</p>
-    {% endif %}
-{% endif %}
 
-{% if is_net %}
-    <h3>Network Administrator Operations</h3>
-    {% if net_tickets %}
-    <table class='ticket_table'>
-        <tr>
-            <th>Ticket</th>
-            <th>User</th>
-            <th>Action</th>
-            <th>Status</th>
-        </tr>
-    {% for ticket in net_tickets %}
-        <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
-            <td><a href='{% url 'ticket_detail' ticket.number %}'>{{ticket.number}}</a></td>
-            <td>{{ticket.target.username}}</td>
-            <td>{{ticket.ticket_type.name}}</td>
-            <td>{{ticket.net_stage_text}}</td>
-        </tr>
-    {% endfor %}
-    </table>
-    {% else %}
     <p class='ticket_message'>No tickets available at this time.</p>
+
     {% endif %}
 {% endif %}
+{% endfor %}
 
 <h3>All Tickets</h3>
-<table width="100%" class='ticket_table'>
-    <tr>
-        <th>Number</th>
-        <th>Status</th>
-        <th>User</th>
-        <th>Action</th>
-        <th>Last Modified</th>
-    </tr>
+<table width="100%" class='table'>
+    <thead>
+        <tr>
+            <th>Number</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Last Modified</th>
+        </tr>
+    </thead>
+    <tbody>
 {% for ticket in tickets %}
-    <tr class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
-        <td><a href='{% url 'ticket_detail' ticket.number %}'>{{ticket.number}}</a></td>
-        <td>{% if ticket.is_complete %}Closed{% else %}Open{% endif %}</td>
+    <tr>
+        <td>
+            {% if ticket.is_complete %}
+            <span class="label label-success" style='margin-right: 0.5em' title='Ticket is Closed'>
+                <span class="glyphicon glyphicon-ok"></span>
+            </span>
+            {% else %}
+            <span class="label label-primary" style='margin-right: 0.5em' title='Ticket is Open'>
+                <span class="glyphicon glyphicon-option-horizontal"></span>
+            </span>
+            {% endif %}
+            <a href='{% url 'ticket_detail' ticket.number %}'>{{ticket.number}}</a>
+        </td>
         <td>{{ticket.target.username}}</td>
         <td>{{ ticket.ticket_type.name }}</td>
         <td>{{ticket.modification_date|date:"Y-m-d H:i:s"}}</td>
     </tr>
 {% endfor %}
+    </tbody>
 </table>
 {% endblock %}
