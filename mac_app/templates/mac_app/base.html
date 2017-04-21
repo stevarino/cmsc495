@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="{% static "mac_app/bootstrap/css/bootstrap.min.css" %}">
 
 <!-- Optional theme -->
@@ -28,27 +29,6 @@ textarea {
     box-sizing: border-box;
 }
 
-.ticket_table {
-    width: 100%;
-    margin: 1em 0 2em 0;
-}
-
-.ticket_table tr.odd {
-    background: #eee;
-}
-.ticket_table tr:hover {
-    background: #ccc;
-}
-.ticket_table th, 
-.ticket_table td {
-    text-align: center;
-}
-
-.ticket_table th:first-child, 
-.ticket_table td:first-child {
-    text-align: left;
-}
-
 p.ticket_message {
     text-align: center;
     font-style: italic;
@@ -60,28 +40,35 @@ p.ticket_message {
 {% block head %} {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">CMSC495 MAC Application</a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-    {% if user.is_authenticated %}
-
-      <li><span class="navbar-text navbar-right">
-        {{ user.username }}
-      </span></li>
-      <li><a href="/logout"><span class="glyphicon glyphicon-user"></span>Logout</a></li>
-    {% else %}
-      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    {% endif %}
-    </ul>
-  </div>
-</nav>
-
+<div class="container" style="max-width: 970px;">
+<h1>
+    <a href="/">CMSC495 MAC Application</a>
+</h1>
+<div class='row'>
+<div class='col-sm-9'>
 {% block content %}
 {% endblock %}
+</div>
+<div class='col-sm-3'>
 
+{% if user.is_authenticated %}
+<div class="panel panel-default">
+  <div class="panel-heading">Logged In As: {{user.username}}</div>
+  <div class="panel-body">
+    <a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a>
+  </div>
+</div>  
+{% else %}
 
+<div class="panel panel-default">
+  <div class="panel-heading">Currently Not Logged In</div>
+  <div class="panel-body">
+      <a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+  </div>
+</div>
+    {% endif %}
+</div>
+</div>
+</div>
 </body>
 </html>
