@@ -44,10 +44,13 @@ p.ticket_message {
 <h1>
     <a href="/">CMSC495 MAC Application</a>
 </h1>
+{% if not no_sidebar %}
 <div class='row'>
 <div class='col-sm-9'>
+{% endif %}
 {% block content %}
 {% endblock %}
+{% if not no_sidebar %}
 </div>
 <div class='col-sm-3'>
 
@@ -69,6 +72,7 @@ p.ticket_message {
     {% endif %}
 </div>
 </div>
+{% endif %}
 </div>
 </body>
 </html>

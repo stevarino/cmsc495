@@ -13,7 +13,7 @@ from .models import Ticket, TicketType, TicketNote, Department
 from .forms import NewUserTicket, UserSearchForm
 
 def index(request):
-    context = {}
+    context = {'no_sidebar': True}
     if 'username' in request.POST:
         username = request.POST['username']
         password = request.POST['password']
