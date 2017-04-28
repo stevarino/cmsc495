@@ -1,0 +1,141 @@
+{% extends 'mac_app/base.html' %}
+
+{% block content %}
+<h2>User <em>{{user.username}}</em></h2>
+
+<div class='row'>
+    <p class='user-label col-sm-2'>Username:</p>
+    <p class='col-sm-10'>{{user.username}}</p>
+</div>
+<div class='row'>
+    <p class='user-label col-sm-2'>First Namref=e:</p>
+    <p class='col-sm-10'>{{user.first_name}}</p>
+</div>
+<div class='row'>
+    <p class='user-label col-sm-2'>Last Name:</p>
+    <p class='col-sm-10'>{{user.last_name}}</p>
+</div>
+<div class='row'>
+    <p class='user-label col-sm-2'>Address:</p>
+    <p class='col-sm-10'>{{user.profile.address}}</p>
+</div>
+<div class='row'>
+    <p class='user-label col-sm-2'>City:</p>
+    <p class='col-sm-10'>{{user.profile.city}}</p>
+</div>
+<div class='row'>
+    <p class='user-label col-sm-2'>State:</p>
+    <p class='col-sm-10'>{{user.profile.state}}</p>
+</div>
+<div class='row'>
+    <p class='user-label col-sm-2'>Postal Code:</p>
+    <p class='col-sm-10'>{{user.profile.postal_code}}</p>
+</div>
+<div class='row'>
+    <p class='user-label col-sm-2'>Phone:</p>
+    <p class='col-sm-10'>{{user.profile.phone}}</p>
+</div>
+<div class='row'>
+    <p class='user-label col-sm-2'>Department:</p>
+    <p class='col-sm-10'>{{user.profile.department.description}}</p>
+</div>
+
+{% if is_hr %}
+    <h3>HR Actions for This User</h3>
+    <a href="{% url 'ticket_user' action='move_user' username=user.username %}" class='btn btn-primary btn-block'>Create a Move User Ticket for <em>{{user.username}}</em></a>
+    <a href="{% url 'ticket_user' action='remove_user' username=user.username %}" class='btn btn-danger btn-block'>Create a Remove User Ticket for <em>{{user.username}}</em></a>
+{% endif %}
+
+<h3>Tickets</h3>
+{% if not tickets %}
+<p>No tickets for this user were found</p>
+{% else %}
+<table width="100%" class='table'>
+    <thead>
+        <tr>
+            <th>Number</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Last Modified</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for ticket in tickets %}
+    <tr>
+        <td>
+            {% if ticket.is_complete %}
+            <span class="label label-success" style='margin-right: 0.5em' title='Ticket is Closed'>
+                <span class="glyphicon glyphicon-ok"></span>
+            </span>
+            {% else %}
+            <span class="label label-primary" style='margin-right: 0.5em' title='Ticket is Open'>
+                <span class="glyphicon glyphicon-option-horizontal"></span>
+            </span>
+            {% endif %}
+            <a href='{% url 'ticket_detail' ticket.number %}'>{{ticket.number}}</a>
+        </td>
+        <td>
+            <a href="{% url 'user_view' username=ticket.target.username %}">
+                {{ticket.target.username}}
+            </a>
+        </td>
+        <td>{{ ticket.ticket_type.name }}</td>
+        <td>{{ticket.modification_date|date:"Y-m-d H:i:s"}}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<h3>Actions Performed</h3>
+{% if not notes %}
+<p>This user has performed no actions.</p>
+{% else %}
+<table width="100%" class='table'>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Ticket</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Department</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for note in notes %}
+    <tr>
+        <td>{{ note.creation_date|date:"Y-m-d H:i:s"}}</td>
+        <td>
+            {% if note.to_state == 'n' %}
+            <span class="label label-default" style='margin-right: 0.5em' title='New'>
+                <span class="glyphicon glyphicon-time"></span>
+            </span>
+            {% elif note.to_state == 'w' %}
+            <span class="label label-warning" style='margin-right: 0.5em' title='waiting'>
+                <span class="glyphicon glyphicon-envelope"></span>
+            </span>
+            {% elif note.to_state == 'p' %}
+            <span class="label label-primary" style='margin-right: 0.5em' title='Work in Progress'>
+                <span class="glyphicon glyphicon-option-horizontal"></span>
+            </span>
+            {% elif note.to_state == 'c' %}
+            <span class="label label-success" style='margin-right: 0.5em' title='Work Complete'>
+                <span class="glyphicon glyphicon-ok"></span>
+            </span>
+            {% endif %}
+            <a href='{% url 'ticket_detail' note.ticket.number %}'>{{note.ticket.number}}</a>
+        </td>
+        <td>
+            <a href="{% url 'user_view' username=note.ticket.target.username %}">
+                {{ note.ticket.target.username }}
+            </a>
+        </td>
+        <td>{{ note.ticket.ticket_type.name }}</td>
+        <td>{{ note.department.description }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endblock %}

@@ -60,6 +60,25 @@ def tickets(request):
 
     return render(request, 'mac_app/tickets.html', context)
 
+# User view
+@login_required(login_url='/')
+def user_view(request, username):
+    context = {}
+    user = get_object_or_404(User, username=username)
+
+    context['user'] = user
+    context['tickets'] = Ticket.objects.filter(target=user).order_by(
+        '-creation_date')
+    context['notes'] = TicketNote.objects.filter(author=user).order_by(
+        '-creation_date')
+
+    user_dept = request.user.profile.department.name.lower()
+
+    context['is_hr'] = request.user.is_superuser or user_dept == 'hr'
+
+    return render(request, 'mac_app/user.html', context)
+
+
 # Ticket detail view
 @login_required(login_url='/')
 def ticket_detail(request, ticket_num):

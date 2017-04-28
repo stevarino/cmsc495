@@ -52,7 +52,11 @@
                     <a href="{% url 'ticket_detail' t.ticket.number %}">{{t.ticket.number}}</a>
                     </span>
                 </td>
-                <td>{{t.ticket.target.username}}</td>
+                <td>
+                    <a href="{% url 'user_view' username=t.ticket.target.username %}">
+                        {{t.ticket.target.username}}
+                    </a>
+                </td>
                 <td>{{t.ticket.ticket_type.name}}</td>
                 <td>{{t.state_text}}</td>
             </tr>
@@ -94,7 +98,11 @@
             {% endif %}
             <a href='{% url 'ticket_detail' ticket.number %}'>{{ticket.number}}</a>
         </td>
-        <td>{{ticket.target.username}}</td>
+        <td>
+            <a href="{% url 'user_view' username=ticket.target.username %}">
+                {{ticket.target.username}}
+            </a>
+        </td>
         <td>{{ ticket.ticket_type.name }}</td>
         <td>{{ticket.modification_date|date:"Y-m-d H:i:s"}}</td>
     </tr>
