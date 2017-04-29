@@ -12,5 +12,6 @@ urlpatterns = [
     #url(r'^tickets/new/move_user/$', views.ticket_move, name='ticket_move'),
     #url(r'^tickets/new/remove_user/$', views.ticket_remove, name='ticket_remove'),
     url(r'^tickets/new/(?P<action>[^/]+)/(?P<username>[^/]+)/$', views.ticket_user, name='ticket_user'),
+    url(r'^users/$', views.users_view, name='users_view'),
     url(r'^users/(?P<username>[^/]+)/$', views.user_view, name='user_view'),
 ]

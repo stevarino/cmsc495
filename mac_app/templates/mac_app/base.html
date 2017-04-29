@@ -21,7 +21,6 @@ body {
 }
 
 label {
-    width: 10em;
     cursor: pointer;
 }
 textarea {
@@ -33,6 +32,22 @@ p.ticket_message {
     text-align: center;
     font-style: italic;
     margin: 1em 0;
+}
+
+p.right-align {
+    text-align: right;
+}
+
+#sidebar_search {}
+
+#sidebar_search label {
+    margin-bottom: 0;
+}
+
+#sidebar_username,
+#sidebar_firstname,
+#sidebar_lastname {
+    width: 100%;
 }
 
 </style>
@@ -59,6 +74,30 @@ p.ticket_message {
   <div class="panel-heading">Logged In As: {{user.username}}</div>
   <div class="panel-body">
     <a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">User Lookup</div>
+  <div class="panel-body">
+    <form method='GET' action='{% url "users_view" %}' id='sidebar_search'>
+        <p>
+            <label for='sidebar_username'>Username</label>
+            <br />
+            <input type='text' id='sidebar_username' name='username' />
+        </p>
+        <p>
+            <label for='sidebar_firstname'>First Name</label>
+            <br />
+            <input type='text' id='sidebar_firstname' name='first_name' />
+        </p>
+        <p>
+            <label for='sidebar_lastname'>Last Name</label>
+            <br />
+            <input type='text' id='sidebar_lastname' name='last_name' />
+        </p>
+        <p class='right-align'><input  type='submit' class='btn btn-primary' /></p>
+    </form>
   </div>
 </div>  
 {% else %}

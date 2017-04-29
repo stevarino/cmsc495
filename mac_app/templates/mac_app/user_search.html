@@ -40,18 +40,20 @@
 {% if users %}
     <table style='width: 100%;'>
         <tr>
-            <th></th>
+            {% if action %}<th></th>{% endif %}
             <th>Username</th>
             <th>Department</th>
             <th>First Name</th>
             <th>Last Name</th>
         </tr>
         {% for user in users.all %}
-            <td style='padding: 0.5em 0;'>
+            {% if action %}<td style='padding: 0.5em 0;'>
                 <a href="{% url 'ticket_user' action=action username=user.username %}" 
                     class='btn btn-primary'>Select</a>
+            </td>{% endif %}
+            <td>
+                <a href="{% url 'user_view' username=user.username %}">{{user.username}}</a>
             </td>
-            <td>{{user.username}}</td>
             <td>{{user.profile.department.description}}</td>
             <td>{{user.first_name}}</td>
             <td>{{user.last_name}}</td>

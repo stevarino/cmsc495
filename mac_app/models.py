@@ -157,7 +157,7 @@ class Profile(models.Model):
     department = models.ForeignKey("Department", blank=True, null=True)
 
     def __str__(self):
-        return "{}".format(self.user)   
+        return "{}".format(self.user)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

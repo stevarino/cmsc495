@@ -188,6 +188,7 @@ def ticket_user(request, action, username):
 
 
 # function to create a ticket for all three paths.
+@login_required(login_url='/')
 def create_ticket(req_user, type_code, user, notes='', dept='HR'):
     new_type = TicketType.objects.get(code=type_code)
     ticket = Ticket(author=req_user, target=user, ticket_type=new_type)
@@ -202,3 +203,14 @@ def create_ticket(req_user, type_code, user, notes='', dept='HR'):
     ticket.enter_stage()
 
     return redirect('ticket_detail', ticket_num=ticket.number)
+
+@login_required(login_url='/')
+def users_view(request):
+    users = []
+    form = UserSearchForm()
+    if request.method == 'GET':
+        form = UserSearchForm(request.GET)
+        if form.is_valid():
+            users = form.get_users()
+    return render(request, 'mac_app/user_search.html', 
+            {'form': form, 'users': users})
