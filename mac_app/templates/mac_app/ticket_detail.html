@@ -59,7 +59,7 @@ $(function() {
     <tbody>
         {% for dept in departments %}
         <tr>
-            <th scope="row" class='col-sm-3'>{{dept.name}}</td>
+            <th scope="row" class='col-sm-3'>{{dept.name}}</th>
             <td> 
                 {% if dept.status == 'n' %}
                 <span class="label label-default" style='margin-right: 0.5em'>
@@ -120,7 +120,7 @@ $(function() {
         </tr>
         <tr>
             <th scope='row' class='col-sm-3'>Department:</th>
-            <td>{{ticket.target.profile.department.description}}</th>
+            <td>{{ticket.target.profile.department.description}}</td>
         </tr>
         <tr>
             <th scope='row' class='col-sm-3'>Requested By:</th>
@@ -155,7 +155,7 @@ $(function() {
     </tr>
     {% if note.content %}
     <tr  class="hidden_note" id='note_{{note.pk}}'>
-        <td colspan='6' class='detail'>{{note.content|linebreaks}}</td>
+        <td colspan='5' class='detail'>{{note.content|linebreaks}}</td>
     </tr>
     {% endif %}
 {% endfor %}
@@ -164,7 +164,7 @@ $(function() {
 {% if is_fac and ticket.fac_stage == 'w' %}
     <h3>Facilities Operations</h3>
     <form method='post'>{% csrf_token %}
-        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <p><textarea name='notes' rows='10' cols='40'></textarea></p>
         <input type='hidden' name='dept' value='fac' />
         <button type='submit' name='state' value='p' class='btn btn-primary btn-block'>
             Acknowledge Receipt
@@ -173,14 +173,14 @@ $(function() {
 {% endif %}
 {% if is_fac and ticket.fac_stage == 'p' %}
     <h3>Facilities Operations</h3>
-    <p>{{ ticket.ticket_type.fac_msg|linebreaks }}</p>
+    {{ ticket.ticket_type.fac_msg|linebreaks }}
     <form method='post'>{% csrf_token %}
-        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <p><textarea name='notes' rows='10' cols='40'></textarea></p>
         <input type='hidden' name='dept' value='fac' />
-        <button type-'submit' name='state' value='c' class='btn btn-success btn-block'>
+        <button type='submit' name='state' value='c' class='btn btn-success btn-block'>
             Work Is Complete
         </button>
-        <button type-'submit' name='state' value='w' class='btn btn-danger btn-block'>
+        <button type='submit' name='state' value='w' class='btn btn-danger btn-block'>
             Cancel Work
         </button>
     </form>
@@ -189,23 +189,23 @@ $(function() {
 {% if is_dsk and ticket.dsk_stage == 'w' %}
     <h3>Desktop Support</h3>
     <form method='post'>{% csrf_token %}
-        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <p><textarea name='notes' rows='10' cols='40'></textarea></p>
         <input type='hidden' name='dept' value='dsk' />
-        <button type-'submit' name='state' value='p' class='btn btn-primary btn-block'>
+        <button type='submit' name='state' value='p' class='btn btn-primary btn-block'>
             Acknowledge Receipt
         </button>
     </form>
 {% endif %}
 {% if is_dsk and ticket.dsk_stage == 'p' %}
     <h3>Desktop Support</h3>
-    <p>{{ ticket.ticket_type.dsk_msg|linebreaks }}</p>
+    {{ ticket.ticket_type.dsk_msg|linebreaks }}
     <form method='post'>{% csrf_token %}
-        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <p><textarea name='notes' rows='10' cols='40'></textarea></p>
         <input type='hidden' name='dept' value='dsk' />
-        <button type-'submit' name='state' value='c' class='btn btn-success btn-block'>
+        <button type='submit' name='state' value='c' class='btn btn-success btn-block'>
             Work Is Complete
         </button>
-        <button type-'submit' name='state' value='w' class='btn btn-danger btn-block'>
+        <button type='submit' name='state' value='w' class='btn btn-danger btn-block'>
             Cancel Work
         </button>
     </form>
@@ -214,23 +214,23 @@ $(function() {
 {% if is_net and ticket.net_stage == 'w' %}
     <h3>Network Administration</h3>
     <form method='post'>{% csrf_token %}
-        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <p><textarea name='notes' rows='10' cols='40'></textarea></p>
         <input type='hidden' name='dept' value='net' />
-        <button type-'submit' name='state' value='p' class='btn btn-primary btn-block'>
+        <button type='submit' name='state' value='p' class='btn btn-primary btn-block'>
             Acknowledge Receipt
         </button>
     </form>
 {% endif %}
 {% if is_net and ticket.net_stage == 'p' %}
     <h3>Network Administration</h3>
-    <p>{{ ticket.ticket_type.net_msg|linebreaks }}</p>
+    {{ ticket.ticket_type.net_msg|linebreaks }}
     <form method='post'>{% csrf_token %}
-        <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
+        <p><textarea name='notes' rows='10' cols='40'></textarea></p>
         <input type='hidden' name='dept' value='net' />
-        <button type-'submit' name='state' value='c' class='btn btn-success btn-block'>
+        <button type='submit' name='state' value='c' class='btn btn-success btn-block'>
             Work Is Complete
         </button>
-        <button type-'submit' name='state' value='w' class='btn btn-danger btn-block'>
+        <button type='submit' name='state' value='w' class='btn btn-danger btn-block'>
             Cancel Work
         </button>
     </form>

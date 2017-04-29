@@ -15,12 +15,14 @@
     <h3>{{d.department.description}} Operations</h3>
     {% if d.tickets %}
 
-    <table class='table' width='100%'>
+    <table class='table'>
         <thead>
-            <th>Ticket</th>
-            <th>User</th>
-            <th>Action</th>
-            <th>Status</th>
+            <tr>
+                <th>Ticket</th>
+                <th>User</th>
+                <th>Action</th>
+                <th>Status</th>
+            </tr>
         </thead>
         <tbody>
             {% for t in d.tickets %}
@@ -47,10 +49,9 @@
                         <span class="glyphicon glyphicon-ok"></span>
                     </span>
                     {% else %}
-                    ? 
+                    ?
                     {% endif %}
                     <a href="{% url 'ticket_detail' t.ticket.number %}">{{t.ticket.number}}</a>
-                    </span>
                 </td>
                 <td>
                     <a href="{% url 'user_view' username=t.ticket.target.username %}">
@@ -74,7 +75,7 @@
 {% endfor %}
 
 <h3>All Tickets</h3>
-<table width="100%" class='table'>
+<table class='table'>
     <thead>
         <tr>
             <th>Number</th>
