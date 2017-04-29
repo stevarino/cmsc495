@@ -104,7 +104,11 @@ $(function() {
         </tr>
         <tr>
             <th scope='row' class='col-sm-3'>Username:</th>
-            <td>{{ticket.target.username}}</td>
+            <td>
+                <a href="{% url 'user_view' username=ticket.target.username %}">
+                    {{ticket.target.username}}
+                </a>
+            </td>
         </tr>
         <tr>
             <th scope='row' class='col-sm-3'>First Name:</th>
@@ -139,7 +143,10 @@ $(function() {
 {% for note in ticket.ticketnote_set.all %}
     <tr>
         <td>{{note.creation_date|date:"Y-m-d H:i:s"}}</td>
-        <td>{{note.author.username}} ({{note.department.name}})</td>
+        <td>
+            <a href="{% url 'user_view' username=note.author.username %}">
+                {{note.author.username}}</a>
+            ({{note.department.name}})</td>
         <td>{{note.from_state_text}}</td>
         <td>{{note.to_state_text}}</td>
         <td>{% if note.content %}
