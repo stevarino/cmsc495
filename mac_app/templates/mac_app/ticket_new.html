@@ -4,9 +4,8 @@
 <h2>New User Ticket</h2>
 <form method="post">
     {% csrf_token %}
-    <!-- forms should probably be css not table -->
     {{ form.as_p }}
-    <p><label for='notes'>Notes:</p>
+    <p><label for='notes'>Notes:</label></p>
     <p><textarea id='notes' name='notes' rows='10' cols='40'></textarea></p>
     <p style='text-align: right;'>
         <input type="submit" value="Create Ticket" class='btn btn-primary' />

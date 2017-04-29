@@ -72,9 +72,10 @@ p.right-align {
 
 {% if user.is_authenticated %}
 <div class="panel panel-default">
-  <div class="panel-heading">Logged In As: {{user.username}}</div>
+  <div class="panel-heading">Welcome, {{user.username}}</div>
   <div class="panel-body">
-    <a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a>
+      <p><a href='{% url "user_view" user.username %}' class='btn btn-primary btn-block'>View Profile</a></p>
+      <p><a href="/logout"><span class="glyphicon glyphicon-user"></span> Logout</a></p>
   </div>
 </div>
 
@@ -97,7 +98,7 @@ p.right-align {
             <br />
             <input type='text' id='sidebar_lastname' name='last_name' />
         </p>
-        <p class='right-align'><input  type='submit' class='btn btn-primary' /></p>
+        <p class='right-align'><input  type='submit' class='btn btn-primary' value='Search' /></p>
     </form>
   </div>
 </div>  
