@@ -94,7 +94,7 @@ def ticket_detail(request, ticket_num):
     if request.method == 'POST':
         department = Department.objects.get(name=request.POST['dept'].upper())
 
-        require_dept(department)
+        require_dept(request, department)
 
         state = getattr(ticket, request.POST['dept']+'_stage')
         note = TicketNote(ticket=ticket, author=request.user,
@@ -138,7 +138,7 @@ def ticket_detail(request, ticket_num):
 @login_required(login_url='/')
 def ticket_new(request):
     '''Creates a ticket for a new user.'''
-    require_dept('HR')
+    require_dept(request, 'HR')
 
     if request.method == 'POST':
         form = NewUserTicket(request.POST)
@@ -172,7 +172,7 @@ def ticket_new(request):
 @login_required(login_url='/')
 def ticket_edit(request, action):
     '''Creates a user edit ticket with a sepcific action (move, remove)'''
-    require_dept('HR')
+    require_dept(request, 'HR')
     if action not in ['move_user', 'remove_user']:
         raise Http404("Action not found")
     users = []
@@ -188,7 +188,7 @@ def ticket_edit(request, action):
 @login_required(login_url='/')
 def ticket_user(request, action, username):
     '''Creates a user edit ticket with a specific action and user'''
-    require_dept('HR')
+    require_dept(request, 'HR')
     types = {'move_user': 'mv', 'remove_user': 'rm'}
     user = get_object_or_404(User, username=username)
     if action not in types.keys():
@@ -222,7 +222,7 @@ def create_ticket(req_user, type_code, user, notes='', dept='HR'):
 
     return redirect('ticket_detail', ticket_num=ticket.number)
 
-def require_dept(dept):
+def require_dept(request, dept):
     '''Helper function to check the authenticated user belongs to the given
     department (or is a super user)'''
     is_super = request.user.is_superuser or request.user.profile.department.name == 'admin'
